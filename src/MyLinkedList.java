@@ -1,9 +1,14 @@
 
 public class MyLinkedList {
   private Node head;
+  private Node tail;
   private  int numNodes;
   public MyLinkedList(Object data) {
     head = new Node(data);
+    tail = new Node(data);
+    head.next = tail;
+    tail.next = null;
+    numNodes++;
   }
 
   private class Node {
@@ -37,11 +42,6 @@ public class MyLinkedList {
     numNodes++;
   }
   public void addLast(Object data) {
-    Node temp = head;
-    for(int i=0; temp.next != null; i++) {
-      temp = temp.next;
-    }
-    Node tail = temp;
     tail.next = new Node(data);
     numNodes++;
   }
