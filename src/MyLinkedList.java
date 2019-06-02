@@ -7,24 +7,29 @@ public class MyLinkedList {
   public MyLinkedList(Object data) {
     head = new Node(data);
     tail = head;
-    numNodes++;
   }
 
   public MyLinkedList (Object ...array){
     head = new Node(array[0]);
     tail = new Node(array[array.length-1]);
     Node current = head;
-    for (int i = 1; i<array.length;i++){
+    for (int i = 1; i<array.length-1;i++){
       current.next = new Node(array[i]);
+      Node temp = current;
       current = current.next;
+      current.previous = temp;
     }
+    current.next = tail;
+    tail.previous = current;
   }
   protected class Node {
     private Node next;
+    private Node previous;
     private Object data;
 
     public Node(Object data) {
       this.data = data;
+      numNodes++;
     }
 
     public Object getData() {
@@ -36,17 +41,32 @@ public class MyLinkedList {
     if (index <= numNodes  && index >= 0) {
       if (index == 0) addFirst(data);
       else if (index == numNodes ) addLast(data);
-      else {
+      else if (index<numNodes/2){
         Node current = head;
         Node temp;
 
         for (int i = 1; i < index ; i++) {
           current = current.next;
         }
+
         temp = current.next;
         current.next = new Node(data);
+        current.next.previous = current;
         current.next.next = temp;
-        numNodes++;
+        temp.previous = current.next;
+      }
+      else {
+        Node current = tail;
+        Node temp;
+
+        for (int i = numNodes-1; i >index ; i--) {
+          current = current.previous;
+        }
+        temp = current.previous;
+        current.previous = new Node(data);
+        current.previous.next = current;
+        current.previous.previous = temp;
+        temp.next = current.previous;
       }
     }
   }
@@ -54,20 +74,27 @@ public class MyLinkedList {
   public void addFirst(Object data) {
     Node temp = head;
     head = new Node(data);
+    temp.previous = head;
     head.next = temp;
-    numNodes++;
   }
 
   public void addLast(Object data) {
     tail.next = new Node(data);
+    tail.next.previous = tail;
     tail = tail.next;
-    numNodes++;
   }
 
   public Node get(int index) {
-    Node temp = head;
-    for (int i = 0; i < index; i++) {
-      temp = temp.next;
+    if (index<numNodes/2){
+      Node temp = head;
+      for (int i = 0; i < index; i++) {
+        temp = temp.next;
+      }
+      return temp;
+    }
+    Node temp = tail;
+    for (int i = numNodes-1; i >index ; i--) {
+      temp = temp.previous;
     }
     return temp;
   }
@@ -78,5 +105,8 @@ public class MyLinkedList {
       System.out.println(temp.data);
       temp = temp.next;
     }
+  }
+  public int size(){
+    return numNodes;
   }
 }
