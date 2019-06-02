@@ -117,14 +117,12 @@ public class MyLinkedList {
   }
 
   public void removeFirst() {
-    Node temp = head;
     head = head.next;
     head.previous = null;
     numNodes--;
   }
 
   public void removeLast() {
-    Node temp = tail;
     tail = tail.previous;
     tail.next = null;
     numNodes--;
