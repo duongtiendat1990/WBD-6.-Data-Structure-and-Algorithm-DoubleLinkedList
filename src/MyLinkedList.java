@@ -1,7 +1,7 @@
 
 public class MyLinkedList {
-  protected Node head;
-  protected Node tail;
+  private Node head;
+  private Node tail;
   private int numNodes;
 
   public MyLinkedList(Object data) {
@@ -70,6 +70,38 @@ public class MyLinkedList {
       }
     }
   }
+  public void remove(int index) {
+    if (index <= numNodes  && index >= 0) {
+      if (index == 0) removeFirst();
+      else if (index == numNodes-1 ) removeLast();
+      else if (index<numNodes/2){
+        Node current = head;
+        Node temp;
+
+        for (int i = 1; i < index ; i++) {
+          current = current.next;
+        }
+
+        temp = current.next.next;
+        current.next = temp;
+        temp.previous = current;
+        numNodes--;
+      }
+      else {
+        Node current = tail;
+        Node temp;
+
+        for (int i = numNodes-2; i > index ; i--) {
+          current = current.previous;
+        }
+        temp = current.previous.previous;
+        current.previous = temp;
+        temp.next = current;
+        numNodes--;
+      }
+    }
+  }
+
 
   public void addFirst(Object data) {
     Node temp = head;
@@ -84,19 +116,34 @@ public class MyLinkedList {
     tail = tail.next;
   }
 
-  public Node get(int index) {
+  public void removeFirst() {
+    Node temp = head;
+    head = head.next;
+    head.previous = null;
+    numNodes--;
+  }
+
+  public void removeLast() {
+    Node temp = tail;
+    tail = tail.previous;
+    tail.next = null;
+    numNodes--;
+  }
+
+  public Object get(int index) {
+    Node temp;
     if (index<numNodes/2){
-      Node temp = head;
+      temp = head;
       for (int i = 0; i < index; i++) {
         temp = temp.next;
       }
-      return temp;
+    } else {
+      temp = tail;
+      for (int i = numNodes-1; i >index ; i--) {
+        temp = temp.previous;
+      }
     }
-    Node temp = tail;
-    for (int i = numNodes-1; i >index ; i--) {
-      temp = temp.previous;
-    }
-    return temp;
+    return temp.getData();
   }
 
   public void printList() {
