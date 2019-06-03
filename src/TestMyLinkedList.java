@@ -7,8 +7,9 @@ public class TestMyLinkedList {
     ll.add(0,1);
     ll.add(19,20);
     ll.printList();
-    ll.remove(1);
-    ll.remove(17);
+
+
+    ll.addAll(2,1,2,1,5,1,4,5,1,5,41,4,1,5,100);
     ll.printList();
   }
 }

@@ -102,7 +102,59 @@ public class MyLinkedList {
     }
   }
 
+  public void addAll(int index, Object ...array){
+    if (index <= numNodes  && index >= 0) {
+      MyLinkedList tempList = new MyLinkedList(array);
+      if (index == 0) addAllFirst(array);
+      else if (index == numNodes ) addAllLast(array);
+      else if (index<numNodes/2){
+        Node current = head;
+        Node temp;
 
+        for (int i = 1; i < index ; i++) {
+          current = current.next;
+        }
+        temp = current.next;
+        current.next = tempList.head;
+        tempList.head.previous = current;
+        tempList.tail.next = temp;
+        temp.previous = tempList.tail;
+        numNodes+=array.length;
+      }
+      else {
+        Node current = tail;
+        Node temp;
+
+        for (int i = numNodes-1; i >index ; i--) {
+          current = current.previous;
+        }
+        temp = current.previous;
+        current.previous = tempList.tail;
+        tempList.tail.next = current;
+        tempList.head.previous = temp;
+        temp.next = tempList.head;
+        numNodes+=array.length;
+      }
+    }
+  }
+
+  public void addAllFirst(Object ...array){
+    MyLinkedList temp = new MyLinkedList(array);
+    Node tempNode = head;
+    head = temp.head;
+    temp.tail.next = tempNode;
+    tempNode.previous = temp.tail;
+    numNodes+=array.length;
+  }
+
+  public void addAllLast(Object ...array){
+    MyLinkedList temp = new MyLinkedList(array);
+    Node tempNode = tail;
+    tail = temp.tail;
+    temp.head.previous = tempNode;
+    tempNode.next = temp.head;
+    numNodes+=array.length;
+  }
   public void addFirst(Object data) {
     Node temp = head;
     head = new Node(data);
