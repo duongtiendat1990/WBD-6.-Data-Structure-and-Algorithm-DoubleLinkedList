@@ -6,6 +6,8 @@ public class TestMyLinkedList {
     MyLinkedList ll = new MyLinkedList(array);
     ll.add(0,1);
     ll.add(19,20);
+    Object foo = new Object();
+    ll.add(ll.size(),foo);
     ll.printList();
 
 

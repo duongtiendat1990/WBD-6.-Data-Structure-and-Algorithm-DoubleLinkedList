@@ -156,6 +156,10 @@ public class MyLinkedList {
     numNodes+=array.length;
   }
   public void addFirst(Object data) {
+    if (this.size()==0){
+      head = new Node(data);
+      tail = head;
+    }
     Node temp = head;
     head = new Node(data);
     temp.previous = head;
@@ -163,6 +167,10 @@ public class MyLinkedList {
   }
 
   public void addLast(Object data) {
+    if (this.size()==0){
+      head = new Node(data);
+      tail = head;
+    }
     tail.next = new Node(data);
     tail.next.previous = tail;
     tail = tail.next;
@@ -182,18 +190,21 @@ public class MyLinkedList {
 
   public Object get(int index) {
     Node temp;
-    if (index<numNodes/2){
-      temp = head;
-      for (int i = 0; i < index; i++) {
-        temp = temp.next;
+    if (index>=0&&index<numNodes){
+      if (index<numNodes/2){
+        temp = head;
+        for (int i = 0; i < index; i++) {
+          temp = temp.next;
+        }
+      } else {
+        temp = tail;
+        for (int i = numNodes-1; i >index ; i--) {
+          temp = temp.previous;
+        }
       }
-    } else {
-      temp = tail;
-      for (int i = numNodes-1; i >index ; i--) {
-        temp = temp.previous;
-      }
+      return temp.getData();
     }
-    return temp.getData();
+    return null;
   }
 
   public void printList() {
